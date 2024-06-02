@@ -6,7 +6,8 @@ const cors = require('cors');
 const sql = require('mssql');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+const host = process.env.HOST || '0.0.0.0';
 
 // Configurar body-parser para manejar datos JSON
 app.use(bodyParser.json());
@@ -72,7 +73,7 @@ app.get('/', async (req, res) => {
     res.status(200).json(result.recordset[0].value);
 });
 
-// Iniciar el servidor
-app.listen(port, () => {
-    console.log(`Servidor escuchando en el puerto ${port}`);
+// Iniciar el servidor y escuchar en todas las interfaces de red
+app.listen(port, host, () => {
+    console.log(`Servidor escuchando en http://0.0.0.0:${port}`);
 });
